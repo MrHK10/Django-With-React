@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionnaire</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+form input[type="text"],
+form select {
+  width: calc(100% - 20px);
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+form button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+form button:hover {
+  background-color: #45a049;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  margin-bottom: 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Languages</h2>
+  <ul>
+    {% for language in languages %}
+    <li>{{ language.name }}</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Add Language</h2>
+  <form method="post" action="{% url 'add_language' %}">
+    {% csrf_token %}
+    <label for="language_name">Language Name:</label>
+    <input type="text" id="language_name" name="language_name" required>
+    <button type="submit">Add Language</button>
+  </form>
+
+  <h2>Add Question and Answer</h2>
+  <form method="post" action="{% url 'add_question_answer' %}">
+    {% csrf_token %}
+    <label for="language_select">Select Language:</label>
+    <select id="language_select" name="language" required>
+      {% for language in languages %}
+      <option value="{{ language.id }}">{{ language.name }}</option>
+      {% endfor %}
+    </select>
+    <br><br>
+    <label for="question_text">Question:</label>
+    <input type="text" id="question_text" name="question_text" required>
+    <br><br>
+    <label for="answer_text">Answer:</label>
+    <input type="text" id="answer_text" name="answer_text" required>
+    <button type="submit">Add Question and Answer</button>
+  </form>
+</div>
+
+</body>
+</html>
